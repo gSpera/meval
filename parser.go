@@ -1,4 +1,4 @@
-package main
+package parser
 
 import (
 	"fmt"
@@ -14,10 +14,6 @@ import (
 
 var vars = map[string]float64{
 	"x": 10,
-}
-
-var fns = map[string]func(args ...float64) (float64, error){
-	"ln": func(args ...float64) (float64, error) { return math.Log(args[0]), nil },
 }
 
 func main() {
