@@ -1,4 +1,4 @@
-package parser
+package eval
 
 import (
 	"fmt"
@@ -6,37 +6,51 @@ import (
 	"go/parser"
 	"go/token"
 	"math"
-	"os"
 	"strconv"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
-var vars = map[string]float64{
-	"x": 10,
+//Evaluator is the enviroment for parsing and evaluating expressions
+type Evaluator struct {
+	vars map[string]float64
+	fns  map[string]func(...float64) (float64, error)
 }
 
-func main() {
-	expr, err := parser.ParseExpr("7+2*5-2+x+ln(x)")
-	if err != nil {
-		panic(err)
+func New() *Evaluator {
+	return &Evaluator{
+		fns: fns,
 	}
-	spew.Dump(expr)
-	v, err := evaluate(expr)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(v)
 }
 
-func evaluate(node ast.Node) (float64, error) {
+func (e *Evaluator) SetVar(name string, value float64) {
+	e.vars[name] = value
+}
+
+func (e *Evaluator) SetFn(name string, fn Function) {
+	e.fns[name] = fn
+}
+
+func (e *Evaluator) Eval(input string) (float64, error) {
+	expr, err := parser.ParseExpr(input)
+	if err != nil {
+		return 0, fmt.Errorf("cannot parse %q: %v", input, err)
+	}
+
+	v, err := e.evaluate(expr)
+	if err != nil {
+		return 0, fmt.Errorf("cannot evaluate %q: %w", input, err)
+	}
+
+	return v, nil
+}
+
+func (e *Evaluator) evaluate(node ast.Node) (float64, error) {
 	switch n := node.(type) {
 	case *ast.BinaryExpr:
-		return binaryExpr(n)
+		return e.binaryExpr(n)
 	case *ast.BasicLit:
 		return basicLitToFloat(n)
 	case *ast.Ident:
-		v, ok := vars[n.Name]
+		v, ok := e.vars[n.Name]
 		if !ok {
 			return 0, fmt.Errorf("unkown variable: %q", n.Name)
 		}
@@ -49,7 +63,7 @@ func evaluate(node ast.Node) (float64, error) {
 		fn := ident.Name
 		args := make([]float64, len(n.Args))
 		for i, arg := range n.Args {
-			v, err := evaluate(arg)
+			v, err := e.evaluate(arg)
 			if err != nil {
 				return 0, fmt.Errorf("cannot evaluate argument %d while calling %q: %w", i, fn, err)
 			}
@@ -62,16 +76,15 @@ func evaluate(node ast.Node) (float64, error) {
 		return f(args...)
 	}
 
-	fmt.Fprintf(os.Stderr, "Token: %T(%+v)\n", node, node)
-	panic("Unkown Token")
+	return 0, fmt.Errorf("unkown token: %T(%+v)", node, node)
 }
 
-func binaryExpr(expr *ast.BinaryExpr) (float64, error) {
-	x, err := evaluate(expr.X)
+func (e *Evaluator) binaryExpr(expr *ast.BinaryExpr) (float64, error) {
+	x, err := e.evaluate(expr.X)
 	if err != nil {
 		return 0, fmt.Errorf("cannot  evaluate left operand: %w", err)
 	}
-	y, err := evaluate(expr.Y)
+	y, err := e.evaluate(expr.Y)
 	if err != nil {
 		return 0, fmt.Errorf("cannot evaluate right operand: %w", err)
 	}
