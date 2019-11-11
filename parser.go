@@ -17,7 +17,8 @@ type Evaluator struct {
 
 func New() *Evaluator {
 	return &Evaluator{
-		fns: fns,
+		vars: make(map[string]float64),
+		fns:  fns,
 	}
 }
 
@@ -55,6 +56,8 @@ func (e *Evaluator) evaluate(node ast.Node) (float64, error) {
 			return 0, fmt.Errorf("unkown variable: %q", n.Name)
 		}
 		return v, nil
+	case *ast.ParenExpr:
+		return e.evaluate(n.X)
 	case *ast.CallExpr:
 		ident, ok := n.Fun.(*ast.Ident)
 		if !ok {
@@ -82,7 +85,7 @@ func (e *Evaluator) evaluate(node ast.Node) (float64, error) {
 func (e *Evaluator) binaryExpr(expr *ast.BinaryExpr) (float64, error) {
 	x, err := e.evaluate(expr.X)
 	if err != nil {
-		return 0, fmt.Errorf("cannot  evaluate left operand: %w", err)
+		return 0, fmt.Errorf("cannot evaluate left operand: %w", err)
 	}
 	y, err := e.evaluate(expr.Y)
 	if err != nil {
@@ -103,7 +106,7 @@ func (e *Evaluator) binaryExpr(expr *ast.BinaryExpr) (float64, error) {
 		v = math.Remainder(x, y)
 
 	default:
-		panic("Unkown Token")
+		return 0, fmt.Errorf("Unkown Token: %T(%+v)", expr.Op, expr.Op)
 	}
 
 	return v, nil
@@ -129,5 +132,5 @@ func basicLitToFloat(b *ast.BasicLit) (float64, error) {
 		return 0, fmt.Errorf("found string literal")
 	}
 
-	return 0, fmt.Errorf("BasicLit: %T(%+v)", b, b)
+	return 0, fmt.Errorf("unkown basic literal: %T(%+v)", b, b)
 }

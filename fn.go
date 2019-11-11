@@ -15,12 +15,13 @@ var fns = map[string]func(args ...float64) (float64, error){
 	"sin":   simpleWrapper(math.Sin),
 	"cos":   simpleWrapper(math.Cos),
 	"tan":   simpleWrapper(math.Tan),
+	"sqrt":  simpleWrapper(math.Sqrt),
 }
 
 func simpleWrapper(f func(float64) float64) Function {
 	return func(args ...float64) (float64, error) {
 		if len(args) != 1 {
-			return 0, fmt.Errorf("calling fucntion with wrong number of argument: expected: 1; got: %d", len(args))
+			return 0, fmt.Errorf("calling function with wrong number of argument: expected: 1; got: %d", len(args))
 		}
 		return f(args[0]), nil
 	}
