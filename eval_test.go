@@ -6,7 +6,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/gSpera/txt-graph/eval"
+	"github.com/gSpera/eval"
 )
 
 func TestEvaluator(t *testing.T) {
@@ -29,6 +29,18 @@ func TestEvaluator(t *testing.T) {
 			"2+2*2",
 			nil,
 			6,
+		},
+		{
+			"negative",
+			"-1",
+			nil,
+			-1,
+		},
+		{
+			"positive",
+			"+1",
+			nil,
+			1,
 		},
 		{
 			"function call",

@@ -48,6 +48,8 @@ func (e *Evaluator) evaluate(node ast.Node) (float64, error) {
 	switch n := node.(type) {
 	case *ast.BinaryExpr:
 		return e.binaryExpr(n)
+	case *ast.UnaryExpr:
+		return e.unaryExpr(n)
 	case *ast.BasicLit:
 		return basicLitToFloat(n)
 	case *ast.Ident:
@@ -110,6 +112,17 @@ func (e *Evaluator) binaryExpr(expr *ast.BinaryExpr) (float64, error) {
 	}
 
 	return v, nil
+}
+
+func (e *Evaluator) unaryExpr(expr *ast.UnaryExpr) (float64, error) {
+	switch expr.Op {
+	case token.ADD:
+		return e.evaluate(expr.X)
+	case token.SUB:
+		v, err := e.evaluate(expr.X)
+		return -v, err
+	}
+	return 0, fmt.Errorf("Unkown unary token: %T(%v)", expr, expr)
 }
 
 func basicLitToFloat(b *ast.BasicLit) (float64, error) {
