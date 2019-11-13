@@ -17,7 +17,7 @@ type Evaluator struct {
 
 func New() *Evaluator {
 	return &Evaluator{
-		vars: make(map[string]float64),
+		vars: consts,
 		fns:  fns,
 	}
 }

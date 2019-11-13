@@ -43,6 +43,12 @@ func TestEvaluator(t *testing.T) {
 			1,
 		},
 		{
+			"constant",
+			"pi",
+			nil,
+			3.141592653589793,
+		},
+		{
 			"function call",
 			"ln(2)",
 			nil,
@@ -151,4 +157,12 @@ func ExampleEvaluator_customFunction() {
 	fmt.Println(value)
 	//Output:
 	//45
+}
+
+func ExampleEvaluator_constant() {
+	e := eval.New()
+	v, _ := e.Eval("pi")
+	fmt.Printf("%.2f\n", v)
+	//Output:
+	//3.14
 }
