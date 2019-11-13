@@ -1,4 +1,4 @@
-package eval_test
+package meval_test
 
 import (
 	"errors"
@@ -6,11 +6,11 @@ import (
 	"math"
 	"testing"
 
-	"github.com/gSpera/eval"
+	"github.com/gSpera/meval"
 )
 
 func TestEvaluator(t *testing.T) {
-	e := eval.New()
+	e := meval.New()
 
 	tm := []struct {
 		name   string
@@ -119,14 +119,14 @@ func equalError(a, b error) bool {
 }
 
 func ExampleEvaluator() {
-	e := eval.New()
+	e := meval.New()
 	value, _ := e.Eval("2+2")
 	fmt.Println(value)
 	//Output:
 	//4
 }
 func ExampleEvaluator_x() {
-	e := eval.New()
+	e := meval.New()
 	e.SetVar("x", 7)
 	value, _ := e.Eval("x * x")
 	fmt.Println(value)
@@ -135,7 +135,7 @@ func ExampleEvaluator_x() {
 }
 
 func ExampleEvaluator_functionCall() {
-	e := eval.New()
+	e := meval.New()
 	value, _ := e.Eval("sqrt(49.0)")
 	fmt.Println(value)
 	//Output:
@@ -143,7 +143,7 @@ func ExampleEvaluator_functionCall() {
 }
 
 func ExampleEvaluator_customFunction() {
-	e := eval.New()
+	e := meval.New()
 	sum := func(args ...float64) (float64, error) {
 		var sum float64
 		for _, arg := range args {
@@ -160,7 +160,7 @@ func ExampleEvaluator_customFunction() {
 }
 
 func ExampleEvaluator_constant() {
-	e := eval.New()
+	e := meval.New()
 	v, _ := e.Eval("pi")
 	fmt.Printf("%.2f\n", v)
 	//Output:

@@ -1,6 +1,6 @@
-//Package eval implements a math evaluator.
+//Package Math Eval implements a math evaluator.
 //for using eval is necessary to create an Evaluator with
-//	e := eval.New()
+//	e := meval.New()
 //An evaluator contains the variables and the functions
 //	e.SetVar("x", 42)
 //For evaluating expressions use the Eval method
@@ -18,4 +18,4 @@
 //Pi, E
 //
 //	e.Eval("pi")
-package eval
+package meval
