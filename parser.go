@@ -106,6 +106,8 @@ func (e *Evaluator) binaryExpr(expr *ast.BinaryExpr) (float64, error) {
 		v = x / y
 	case token.REM:
 		v = math.Remainder(x, y)
+	case token.XOR:
+		v = math.Pow(x, y)
 
 	default:
 		return 0, fmt.Errorf("Unkown Token: %T(%+v)", expr.Op, expr.Op)

@@ -60,6 +60,12 @@ func TestEvaluator(t *testing.T) {
 			nil,
 			9,
 		},
+		{
+			"pow",
+			"2^3",
+			nil,
+			8,
+		},
 
 		{
 			"cannot parse",
