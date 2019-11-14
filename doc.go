@@ -5,17 +5,18 @@
 //	e.SetVar("x", 42)
 //For evaluating expressions use the Eval method
 //	e.Eval("x+2")
+// Valid operators are: +, -, *, /, %(remainder), ^(power)
 //
 // Functions
 //
 //eval comes with some builtins functions, others may be added in future:
-//Ln, Log10, Log2, Sin, Cos, Tan, Sqrt
+//ln, log10, log2, log, sin, cos, tan, sqrt
 //	e.Eval("ln(2)")
 //
 // Math Constants
 //
 //eval comes with some predefine math constants, others may be added in future:
-//Pi, E
+//pi, e
 //
 //	e.Eval("pi")
 package meval

@@ -124,14 +124,14 @@ func equalError(a, b error) bool {
 	return a.Error() == b.Error()
 }
 
-func ExampleEvaluator() {
+func Example() {
 	e := meval.New()
 	value, _ := e.Eval("2+2")
 	fmt.Println(value)
 	//Output:
 	//4
 }
-func ExampleEvaluator_x() {
+func Example_x() {
 	e := meval.New()
 	e.SetVar("x", 7)
 	value, _ := e.Eval("x * x")
@@ -140,7 +140,7 @@ func ExampleEvaluator_x() {
 	//49
 }
 
-func ExampleEvaluator_functionCall() {
+func Example_functionCall() {
 	e := meval.New()
 	value, _ := e.Eval("sqrt(49.0)")
 	fmt.Println(value)
@@ -148,7 +148,7 @@ func ExampleEvaluator_functionCall() {
 	//7
 }
 
-func ExampleEvaluator_customFunction() {
+func Example_customFunction() {
 	e := meval.New()
 	sum := func(args ...float64) (float64, error) {
 		var sum float64
@@ -165,10 +165,18 @@ func ExampleEvaluator_customFunction() {
 	//45
 }
 
-func ExampleEvaluator_constant() {
+func Example_constant() {
 	e := meval.New()
 	v, _ := e.Eval("pi")
 	fmt.Printf("%.2f\n", v)
 	//Output:
 	//3.14
+}
+
+func Example_log() {
+	e := meval.New()
+	v, _ := e.Eval("log(11, 15)")
+	fmt.Printf("%.2f\n", v)
+	//Output:
+	//1.13
 }
