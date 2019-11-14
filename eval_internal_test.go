@@ -81,6 +81,18 @@ func TestEvaluatorBinaryExpr(t *testing.T) {
 	}
 }
 
+func TestUnaryExpr(t *testing.T) {
+	e := New()
+	t.Run("invalid", func(t *testing.T) {
+		_, err := e.unaryExpr(&ast.UnaryExpr{
+			Op: token.INT,
+		})
+		if err == nil {
+			t.Errorf("expected error; got nil")
+		}
+	})
+}
+
 func TestFunctionsimpleWrapper(t *testing.T) {
 	_, err := fns["ln"](1, 2, 3)
 	if err == nil {
