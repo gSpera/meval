@@ -20,5 +20,5 @@ Pi, E.
 `e.Eval("pi")`
 
 ## Parser
-Meval is currently built around the Golang parser, this was chosen for the semplicity of implementing,
-in future a custom one could be implemented.
+Meval is currently built around a modified copy the Golang parser, this was chosen for the semplicity of implementing,
+in future a custom one could be used. The source code of the parser can be found in the internal subdirctory.

@@ -2,11 +2,13 @@ package meval
 
 import (
 	"fmt"
-	"go/ast"
-	"go/parser"
-	"go/token"
+
 	"math"
 	"strconv"
+
+	"github.com/gSpera/meval/internal/ast"
+	"github.com/gSpera/meval/internal/parser"
+	"github.com/gSpera/meval/internal/token"
 )
 
 //Evaluator is the enviroment for parsing and evaluating expressions

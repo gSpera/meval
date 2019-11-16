@@ -66,6 +66,12 @@ func TestEvaluator(t *testing.T) {
 			nil,
 			8,
 		},
+		{
+			"power order",
+			"7 * 2^4",
+			nil,
+			112,
+		},
 
 		{
 			"cannot parse",

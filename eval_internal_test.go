@@ -2,10 +2,11 @@ package meval
 
 import (
 	"fmt"
-	"go/ast"
-	"go/token"
 	"math"
 	"testing"
+
+	"github.com/gSpera/meval/internal/ast"
+	"github.com/gSpera/meval/internal/token"
 )
 
 func TestEvaluatorevaluate(t *testing.T) {
